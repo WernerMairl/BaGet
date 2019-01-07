@@ -1,9 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>netcoreapp2.2</TargetFrameworks>
     <Description>The main UI that power BaGet.</Description>
+    <RootNamespace>MyRoot</RootNamespace>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.FileProviders.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="2.2.0" />
+  </ItemGroup>
 
   <ItemGroup>
     <Compile Remove="node_modules\**" />
@@ -31,9 +40,10 @@
     <None Remove="tsconfig.test.json" />
     <None Remove="tslint.json" />
   </ItemGroup>
-  
+
   <ItemGroup>
     <EmbeddedResource Include="build\**" />
   </ItemGroup>
+
 
 </Project>
