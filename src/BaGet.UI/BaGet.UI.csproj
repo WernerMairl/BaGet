@@ -31,5 +31,9 @@
     <None Remove="tsconfig.test.json" />
     <None Remove="tslint.json" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <EmbeddedResource Include="build\**" />
+  </ItemGroup>
 
 </Project>
