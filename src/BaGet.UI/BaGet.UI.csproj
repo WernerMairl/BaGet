@@ -1,0 +1,35 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0</TargetFrameworks>
+    <Description>The main UI that power BaGet.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="node_modules\**" />
+    <Compile Remove="public\**" />
+    <Compile Remove="src\**" />
+    <EmbeddedResource Remove="node_modules\**" />
+    <EmbeddedResource Remove="public\**" />
+    <EmbeddedResource Remove="src\**" />
+    <None Remove="node_modules\**" />
+    <None Remove="public\**" />
+    <None Remove="src\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove=".gitignore" />
+    <None Remove="build\asset-manifest.json" />
+    <None Remove="build\index.html" />
+    <None Remove="build\service-worker.js" />
+    <None Remove="images.d.ts" />
+    <None Remove="package-lock.json" />
+    <None Remove="package.json" />
+    <None Remove="readme.md" />
+    <None Remove="tsconfig.json" />
+    <None Remove="tsconfig.prod.json" />
+    <None Remove="tsconfig.test.json" />
+    <None Remove="tslint.json" />
+  </ItemGroup>
+
+</Project>
