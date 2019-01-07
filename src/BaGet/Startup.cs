@@ -1,15 +1,14 @@
-﻿using System;
+using System;
 using BaGet.Configurations;
 using BaGet.Core.Configuration;
 using BaGet.Core.Entities;
 using BaGet.Extensions;
+using BaGet.UI;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-
 namespace BaGet
 {
     public class Startup
@@ -25,11 +24,13 @@ namespace BaGet
         {
             services.ConfigureBaGet(Configuration, httpServices: true);
 
-            // In production, the UI files will be served from this directory
-            services.AddSpaStaticFiles(configuration =>
+            //Load UI from a pure amd clean dotnet core assembly (client files as embedded resource)
+            services.AddBaGetDefaultUI((configuration) =>
             {
-                configuration.RootPath = "BaGet.UI/build";
+               configuration.BaseNamespace = "MyRoot.build";
+               configuration.EmbeddedResourceAssembly = typeof(BaGet.UI.BaGetUIOptions).Assembly;
             });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -55,8 +56,8 @@ namespace BaGet
             }
 
             app.UsePathBase(options.PathBase);
+
             app.UseForwardedHeaders();
-            app.UseSpaStaticFiles();
 
             app.UseCors(ConfigureCorsOptions.CorsPolicy);
 
@@ -71,15 +72,8 @@ namespace BaGet
                     .MapPackageContentRoutes();
             });
 
-            app.UseSpa(spa =>
-            {
-                spa.Options.SourcePath = "../BaGet.UI";
+            app.UseBaGetDefaultUI();
 
-                if (env.IsDevelopment())
-                {
-                    spa.UseReactDevelopmentServer(npmScript: "start");
-                }
-            });
         }
     }
 }
