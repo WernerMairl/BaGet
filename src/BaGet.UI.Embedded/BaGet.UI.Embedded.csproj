@@ -1,9 +1,10 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp2.2</TargetFrameworks>
-    <Description>The main UI that power BaGet.</Description>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Description>The embedded main UI that power BaGet.</Description>
     <RootNamespace>BaGet.UI.Embedded</RootNamespace>
+    <SpaRoot>..\BaGet.UI\</SpaRoot>
   </PropertyGroup>
 
   <ItemGroup>
@@ -14,7 +15,24 @@
   <ItemGroup>
     <EmbeddedResource Include="..\BaGet.UI\build\**" />
   </ItemGroup>
- 
+
+  <Target Name="RunWebpackBeforeEmbedding" BeforeTargets="Compile">
+    <!-- As part of publishing, ensure the JS resources are freshly built in production mode -->
+    <Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
+    <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build" />
+
+    <!-- Include the newly-built files in the publish output -->
+    <ItemGroup>
+      <DistFiles Include="$(SpaRoot)build\**" />
+      <ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
+        <!-- Because the root is relative and has ..\, the "Workaround" folder just tricks msbuild to put 
+          the files where we want them. Otherwise they would be placed up a directory under the BaGet folder. -->
+        <RelativePath>Workaround\%(DistFiles.Identity)</RelativePath>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </ResolvedFileToPublish>
+    </ItemGroup>
+  </Target>
+
 
 
 </Project>
