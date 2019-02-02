@@ -199,6 +199,8 @@ namespace BaGet.Core.Tests.Services
             public FactsBase()
             {
                 _storePath = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString("N"));
+                _storePath = Path.Combine(@"\\?\c:\_tmp", Guid.NewGuid().ToString("N"));
+                System.Diagnostics.Debug.WriteLine(Path.GetFullPath(_storePath));
                 _options = new Mock<IOptionsSnapshot<FileSystemStorageOptions>>();
 
                 _options
